@@ -1,10 +1,10 @@
 //protótipo de midware
 
-function autenticar(req, resposta, next){
+function autenticar(req, res, next){
     const authHeader = req.headers.authorization; //busca o token no cabeçalho 
 
     if(!authHeader){
-        return resposta.status(401).json({erro: "Token não encontrado!"});
+        return res.status(401).json({erro: "Token não encontrado!"});
     }
 
     const token = authHeader.split(' ')[1]; //divide e pega só a segunda parte (o token de fato)
@@ -18,6 +18,6 @@ function autenticar(req, resposta, next){
         "req.usuario.role" */
         next();
     } catch (err) { 
-        return resposta.status(401).json({ erro: 'Token inválido' }); }
+        return res.status(401).json({ erro: 'Token inválido' }); }
 
 }
