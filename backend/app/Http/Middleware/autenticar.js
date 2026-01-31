@@ -18,6 +18,6 @@ function autenticar(req, resposta, next){
         "req.usuario.role" */
         next();
     } catch (err) { 
-        return res.status(401).json({ erro: 'Token inválido' }); }
+        return resposta.status(401).json({ erro: 'Token inválido' }); }
 
 }
