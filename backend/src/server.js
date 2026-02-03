@@ -7,4 +7,5 @@ app.listen(PORT, () => {
   console.log(`✅ Backend rodando em: http://localhost:${PORT}`);
   console.log(`📡 Teste: http://localhost:${PORT}/api/test`);
   console.log(`📡 Admin: http://localhost:${PORT}/api/admin`);
+  console.log(`📡 Users: http://localhost:${PORT}/api/users`);
 });
