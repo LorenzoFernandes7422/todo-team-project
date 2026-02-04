@@ -5,7 +5,9 @@ const validator = require('validator');
 const userController = {
   async create(req, res) {
     try {
-      const { nome, email, senha } = req.body;
+      const nome = req.body.nome?.trim();
+      const email = req.body.email?.trim();
+      const senha = req.body.senha;
 
       if (!nome || !email || !senha) {
         return res.status(400).json({ error: 'Todos os campos sao obrigatorios' });
@@ -42,6 +44,9 @@ const userController = {
       return res.status(201).json(userWithoutPassword);
     } catch (error) {
       console.error(error);
+      if (error.code === 'P2002') {
+        return res.status(400).json({ error: 'Email ja esta em uso' });
+      }
       return res.status(500).json({ error: 'Erro ao criar usuario' });
     }
   },
@@ -75,16 +80,23 @@ const userController = {
       }
 
       const user = await prisma.user.findUnique({
-        where: { id }
+        where: { id },
+        select: {
+          id: true,
+          nome: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+          deletedAt: true
+        }
       });
 
       if (!user || user.deletedAt) {
         return res.status(404).json({ error: 'Usuario nao encontrado' });
       }
 
-      const { senha, ...userWithoutPassword } = user;
-
-      return res.json(userWithoutPassword);
+      const { deletedAt: _, ...userWithoutDeletedAt } = user;
+      return res.json(userWithoutDeletedAt);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Erro ao buscar usuario' });
@@ -94,7 +106,9 @@ const userController = {
   async update(req, res) {
     try {
       const id = Number(req.params.id);
-      const { nome, email, senha } = req.body;
+      const nome = req.body.nome?.trim();
+      const email = req.body.email?.trim();
+      const senha = req.body.senha;
 
       if (isNaN(id)) {
         return res.status(400).json({ error: 'ID invalido' });
@@ -138,6 +152,10 @@ const userController = {
         updateData.senha = await bcrypt.hash(senha, 10);
       }
 
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ error: 'Preencha pelo menos um campo para atualizar' });
+      }
+
       const updatedUser = await prisma.user.update({
         where: { id },
         data: updateData,
@@ -153,6 +171,9 @@ const userController = {
       return res.json(updatedUser);
     } catch (error) {
       console.error(error);
+      if (error.code === 'P2002') {
+        return res.status(400).json({ error: 'Email ja esta em uso' });
+      }
       return res.status(500).json({ error: 'Erro ao atualizar usuario' });
     }
   },

@@ -1,6 +1,6 @@
 const express = require('express');
 const { login } = require('../controllers/authController');
-const userRoutes = require('./userRoutes');
+const { userController } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -15,6 +15,11 @@ router.get('/test', (req, res) => {
 // Auth routes
 router.post('/auth/login', login);
 
-router.use('/users', userRoutes);
+// User routes
+router.post('/users', userController.create);
+router.get('/users', userController.list);
+router.get('/users/:id', userController.show);
+router.put('/users/:id', userController.update);
+router.delete('/users/:id', userController.delete);
 
 module.exports = router;
