@@ -1,6 +1,7 @@
 const express = require('express');
 const { login } = require('../controllers/authController');
 const { userController } = require('../controllers/userController');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -13,7 +14,9 @@ router.get('/test', (req, res) => {
 });
 
 // Auth routes
-router.post('/auth/login', login);
+router.post('/auth/login', authController.login);
+router.get('/auth/me', autenticar, authController.me);
+router.post('/auth/logout', autenticar, authController.logout);
 
 // User routes
 router.post('/users', userController.create);
