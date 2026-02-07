@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const jwtConfig = require('../config/jwt');
-const User = require('../models/User');
+const prisma = require('../lib/prisma.js');
 
 class AuthController{
 async login(req, res){
@@ -9,7 +9,7 @@ async login(req, res){
 
  if(!email || !senha){
   return res.status(400).json({ erro: 'Email e senha são obrigatórios'});
- }
+ }S
 
  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  if(!emailValido.test(email)){
@@ -44,7 +44,7 @@ async login(req, res){
 }
 
 async me(req, res){
-  const usuario = await User.findByPk(req.userId, {
+  const usuario = await prisma.user.findByPk(req.userId, {
     attributes: ['id', 'nome', 'email', 'created_at']
   });
 
