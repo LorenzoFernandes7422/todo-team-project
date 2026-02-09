@@ -1,4 +1,5 @@
 -- CreateTable
+
 CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "nome" VARCHAR(100) NOT NULL,
