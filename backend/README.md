@@ -135,6 +135,7 @@ O servidor sobe em **http://localhost:3001**.
 | `npm run prisma:generate`| Gera o Prisma Client               |
 | `npm run prisma:migrate`  | Cria/aplica migrations             |
 | `npx prisma db seed`      | Executa o seed (admin inicial)     |
+| `npx prisma migrate deploy`| Roda migrations novas 
 
 ---
 
@@ -261,4 +262,4 @@ npx prisma db seed
 npm run dev
 ```
 
-Acesse: http://localhost:3001/api/test
+Acesse: http://localhost:3001/api

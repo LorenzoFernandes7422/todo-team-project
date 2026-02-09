@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtConfig = require('../../../config/jwt');
+const jwtConfig = require('../config/jwt');
 
 function autenticar(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -13,7 +13,6 @@ function autenticar(req, res, next) {
     try {
         const payload = jwt.verify(token, jwtConfig.secret);
 
-        // dados disponíveis nas rotas
         req.userId = payload.id;
 
         next();
