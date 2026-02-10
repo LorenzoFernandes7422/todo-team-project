@@ -1,4 +1,5 @@
 -- CreateTable
+
 CREATE TABLE "Admin" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
