@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { getTest } from '../services/authService'
 import {
   Row,
   Col,
@@ -12,8 +11,17 @@ import {
   Button,
 } from 'reactstrap'
 import './LoginCadastro.css'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { login, cadastro } from '../services/authService'
 
 function LoginCadastro() {
+  const navigate = useNavigate()
+  const token = localStorage.getItem('token')
+  
+  if (token) {
+    return <Navigate to="/dashboard" replace />
+  }
+  
   const [modo, setModo] = useState('login')
 
   const [email, setEmail] = useState('')
@@ -23,12 +31,38 @@ function LoginCadastro() {
   const [emailCadastro, setEmailCadastro] = useState('')
   const [senhaCadastro, setSenhaCadastro] = useState('')
 
-  const handleTestarApi = async () => {
+  const [loadingLogin, setLoadingLogin] = useState(false)
+  const [loadingCadastro, setLoadingCadastro] = useState(false)
+  const [erroLogin, setErroLogin] = useState('')
+  const [erroCadastro, setErroCadastro] = useState('')
+
+  const handleLogin = async () => {
+    setErroLogin('')
+    setLoadingLogin(true)
     try {
-      const data = await getTest()
-      alert(JSON.stringify(data))
+      const data = await login(email, senha)
+      localStorage.setItem('token', data.token)
+      navigate('/dashboard')
     } catch (error) {
-      alert('Erro: ' + error.message)
+      setErroLogin(error.message)
+    } finally {
+      setLoadingLogin(false)
+    }
+  }
+
+  const handleCadastro = async () => {
+    setErroCadastro('')
+    setLoadingCadastro(true)
+    try {
+      const data = await cadastro(nome, emailCadastro, senhaCadastro)
+      setNome('')
+      setEmailCadastro('')
+      setSenhaCadastro('')
+      setModo('login')
+    } catch (error) {
+      setErroCadastro(error.message)
+    } finally {
+      setLoadingCadastro(false)
     }
   }
 
@@ -55,7 +89,13 @@ function LoginCadastro() {
                           <p className="text-center text-secondary small mb-4">
                             Entre com suas credenciais para acessar sua conta.
                           </p>
-                          <Form className="auth-form-minimal">
+                          <Form
+                            className="auth-form-minimal"
+                            onSubmit={(e) => {
+                              e.preventDefault()
+                              handleLogin()
+                            }}
+                          >
                             <FormGroup>
                               <Label for="email">Email</Label>
                               <Input
@@ -76,12 +116,19 @@ function LoginCadastro() {
                                 onChange={(e) => setSenha(e.target.value)}
                               />
                             </FormGroup>
+                            {erroLogin && (
+                              <div className="text-danger small mb-2" role="alert">
+                                {erroLogin}
+                              </div>
+                            )}
                             <Button
                               color="dark"
                               className="w-100 fw-bold mb-2"
-                              onClick={handleTestarApi}
+                              type="submit"
+                              onClick={handleLogin}
+                              disabled={loadingLogin}
                             >
-                              Testar API
+                              {loadingLogin ? 'Entrando...' : 'Login'}
                             </Button>
                           </Form>
                           <button
@@ -120,7 +167,13 @@ function LoginCadastro() {
                           <p className="text-center text-secondary small mb-4">
                             Preencha os dados abaixo para se cadastrar.
                           </p>
-                          <Form className="auth-form-minimal">
+                          <Form
+                            className="auth-form-minimal"
+                            onSubmit={(e) => {
+                              e.preventDefault()
+                              handleCadastro()
+                            }}
+                          >
                             <FormGroup>
                               <Label for="nome">Nome</Label>
                               <Input
@@ -151,8 +204,18 @@ function LoginCadastro() {
                                 onChange={(e) => setSenhaCadastro(e.target.value)}
                               />
                             </FormGroup>
-                            <Button color="dark" className="w-100 fw-bold mb-2" type="button">
-                              Cadastrar
+                            {erroCadastro && (
+                              <div className="text-danger small mb-2" role="alert">
+                                {erroCadastro}
+                              </div>
+                            )}
+                            <Button color="dark"
+                              className="w-100 fw-bold mb-2" 
+                              type="submit"
+                              onClick={handleCadastro}
+                              disabled={loadingCadastro}
+                            >
+                              {loadingCadastro ? 'Cadastrando...' : 'Cadastrar'}
                             </Button>
                           </Form>
                           <button
