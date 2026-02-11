@@ -1,0 +1,195 @@
+/* imagem de fundo da página */
+.login-background {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../assets/1638869948315633c4e2ba122b45cac4.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* container que envolve o card */
+.login-card-wrapper {
+  width: 100%;
+  max-width: 64rem;
+  padding: 0 1rem;
+}
+
+/* card branco central */
+.login-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: var(--color-white);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  min-height: 420px;
+  max-height: 85vh;
+}
+
+/* corpo do card (flex) */
+.login-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* área que esconde o slide que sai da tela */
+.auth-slide-container {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* wrapper dos dois slides (animação horizontal) */
+.auth-slide-wrapper {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* cada slide (login ou cadastro) */
+.auth-slide {
+  flex: 0 0 50%;
+  width: 50%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* linha do card (formulário + imagem) */
+.login-card-row {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* metade do card onde fica o formulário */
+.login-form-side {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* metade do card onde fica a imagem */
+.login-image-side {
+  flex: 1;
+  min-width: 420px;
+  min-height: 520px;
+  position: relative;
+}
+
+/* imagem ao lado do formulário */
+.login-right-image {
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/3375959fa715260faa211f54203b5802.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* imagem espelhada no slide de cadastro */
+.login-right-image--mirror {
+  transform: scaleX(-1);
+}
+
+/* título "TODO TEAMS" */
+.login-project-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* título alinhado à esquerda (login) */
+.login-form-side--login .login-project-name {
+  text-align: left;
+}
+
+/* título alinhado à direita (cadastro) */
+.login-form-side--cadastro .login-project-name {
+  text-align: right;
+  width: fit-content;
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+/* parte verde do título (TODO) */
+.login-project-name-green {
+  color: var(--color-primary);
+}
+
+/* parte preta do título (TEAMS) */
+.login-project-name-black {
+  color: var(--color-black);
+}
+
+/* espaçamento entre campos do formulário */
+.auth-form-minimal .form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* labels do formulário (maiúsculas, pequenas) */
+.auth-form-minimal label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-black);
+  margin-bottom: 0.5rem;
+}
+
+/* inputs: só linha embaixo, sem borda completa */
+.auth-form-minimal .form-control,
+.auth-form-minimal input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  padding: 0.5rem 0;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--color-black);
+}
+
+/* cor do placeholder */
+.auth-form-minimal .form-control::placeholder,
+.auth-form-minimal input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* estado de foco do input (linha verde) */
+.auth-form-minimal .form-control:focus,
+.auth-form-minimal input:focus {
+  outline: none;
+  border-bottom-color: var(--color-primary);
+  box-shadow: none;
+}
+
+/* botões do formulário (borda, sombra) */
+.auth-form-minimal .btn {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* botão escuro (login/cadastrar) */
+.auth-form-minimal .btn-dark {
+  background-color: var(--color-black);
+  border-color: var(--color-black);
+}
+
+/* hover do botão escuro */
+.auth-form-minimal .btn-dark:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+  border-color: rgba(0, 0, 0, 0.85);
+}
